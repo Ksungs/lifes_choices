@@ -1,15 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI; // UI 관련 네임스페이스
 using System.IO; // 파일 입출력
 
 public class LBtnManager : MonoBehaviour
 {
     public string filePath; // 파일 경로
+    private GameManager gameManager; // GameManager 참조
 
     void Start()
     {
         // 파일 경로 설정
         filePath = Path.Combine(Application.persistentDataPath, "output.txt");
+        gameManager = FindObjectOfType<GameManager>(); // GameManager 인스턴스 찾기
     }
 
     public void AppendL()
@@ -19,7 +20,10 @@ public class LBtnManager : MonoBehaviour
         {
             writer.Write("0");
         }
-        
+
+        // GameManager의 progressIndex 증가
+        gameManager.progressIndex++; // progressIndex 증가
+        Debug.Log("Progress Index updated to: " + gameManager.progressIndex);
         Debug.Log("0 has been appended to " + filePath);
     }
 }

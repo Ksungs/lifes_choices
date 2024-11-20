@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections; // 코루틴 사용을 위한 네임스페이스
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,8 +76,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                ChangeImgFun();
-                ChangeTxtFun();
+                StartCoroutine(WaitAndChange()); // 0.1초 대기 후 텍스트 및 이미지 변경
             }
         }
     }
@@ -92,7 +91,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {       
-            progressIndex ++;
+            progressIndex++;
             StoryImg.gameObject.SetActive(true); // 이미지 활성화
             InitStoryObject.SetActive(false); // 초기 스토리 오브젝트 비활성화
             LeftBtn.SetActive(true);
@@ -111,7 +110,7 @@ public class GameManager : MonoBehaviour
                 StoryImg.sprite = FirstImg; // 첫 번째 이미지로 변경
                 break;
             case 2:
-                StoryImg.sprite = SecondImg; // 첫 번째 이미지로 변경
+                StoryImg.sprite = SecondImg; // 두 번째 이미지로 변경
                 break;
             // 추가적인 이미지 변경 로직을 여기에 추가 가능
         }
@@ -124,6 +123,11 @@ public class GameManager : MonoBehaviour
         ChoiceText.text = ChoiceStory[progressIndex - 1];
     }
 
-    // 첫 번째 선택 진행 메서드
-    
+    // 0.1초 대기 후 텍스트 및 이미지 변경
+    private IEnumerator WaitAndChange()
+    {
+        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+        ChangeImgFun(); // 이미지 변경
+        ChangeTxtFun(); // 텍스트 변경
+    }
 }
