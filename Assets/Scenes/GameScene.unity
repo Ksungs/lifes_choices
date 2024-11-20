@@ -369,9 +369,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1550915277}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -540}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -1100}
   m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &243730512
@@ -661,9 +661,9 @@ MonoBehaviour:
   RightBtnText: {fileID: 494114160}
   FirstImg: {fileID: 21300000, guid: a53cded0b079f5847863425a08108363, type: 3}
   SecondImg: {fileID: 21300000, guid: a7667811e2ccf7c4d9aecf84b37a7376, type: 3}
-  ThirdImg: {fileID: 0}
-  FourthImg: {fileID: 0}
-  FifthImg: {fileID: 0}
+  ThirdImg: {fileID: 21300000, guid: 15dae7ff7fd90f0488a516a1d35ba9fd, type: 3}
+  FourthImg: {fileID: 21300000, guid: 9f5a52ad1f1634c449433571490700e2, type: 3}
+  FifthImg: {fileID: 21300000, guid: c8163be9caffa0c4e98e2700de290070, type: 3}
 --- !u!1 &689388752
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,23 +889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56cdea6887985144b9c70f6800bc96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayText: {fileID: 890461886}
-  StoryImg: {fileID: 1550915276}
-  InitStory:
-  - "\uD50C\uB808\uC774\uC5B4\uB294 \uD55C \uC0AC\uB78C\uC758 \uC778\uC0DD\uC744
-    \uCC98\uC74C\uBD80\uD130 \uB05D\uAE4C\uC9C0 \uACBD\uD5D8\uD569\uB2C8\uB2E4."
-  - "\uC720\uB144\uAE30\uBD80\uD130 \uB178\uB144\uAE30\uAE4C\uC9C0, \uC778\uC0DD\uC758
-    \uC911\uC694\uD55C \uC21C\uAC04\uB9C8\uB2E4 5\uAC1C\uC758 \uC9C0\uBB38\uC774
-    \uB4F1\uC7A5\uD569\uB2C8\uB2E4."
-  - "\uD50C\uB808\uC774\uC5B4\uB294 \uAC01 \uC120\uD0DD\uB9C8\uB2E4 \uB450 \uAC00\uC9C0
-    \uBCF4\uAE30 \uC911 \uD558\uB098\uB97C \uC120\uD0DD\uD569\uB2C8\uB2E4."
-  - "\uC774 \uC120\uD0DD\uB4E4\uC774 \uC313\uC5EC \uB9C8\uC9C0\uB9C9\uC5D0 \uD50C\uB808\uC774\uC5B4\uC758
-    \uC778\uC0DD\uC744 \uC694\uC57D\uD558\uB294 \uCD5C\uC885 \uC2A4\uD1A0\uB9AC\uAC00
-    \uACB0\uC815\uB429\uB2C8\uB2E4."
-  - "\uAC01 \uC120\uD0DD\uC740 \uB2E8\uC21C\uD574 \uBCF4\uC5EC\uB3C4 \uC608\uC0C1\uCE58
-    \uBABB\uD55C \uACB0\uACFC\uB97C \uCD08\uB798\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-  - "\uADF8\uB7FC \uD589\uC6B4\uC744 \uBE55\uB2C8\uB2E4."
-  currentIndex: 0
 --- !u!114 &890461886
 MonoBehaviour:
   m_ObjectHideFlags: 0

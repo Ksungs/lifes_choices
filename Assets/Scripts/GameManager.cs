@@ -2,6 +2,8 @@ using System.Collections; // 코루틴 사용을 위한 네임스페이스
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -76,7 +78,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                StartCoroutine(WaitAndChange()); // 0.1초 대기 후 텍스트 및 이미지 변경
+                StartCoroutine(WaitAndChange()); // 0.5초 대기 후 텍스트 및 이미지 변경
             }
         }
     }
@@ -112,21 +114,38 @@ public class GameManager : MonoBehaviour
             case 2:
                 StoryImg.sprite = SecondImg; // 두 번째 이미지로 변경
                 break;
+            case 3:
+                StoryImg.sprite = ThirdImg; // 두 번째 이미지로 변경
+                break;
+            case 4:
+                StoryImg.sprite = FourthImg; // 두 번째 이미지로 변경
+                break;
+            case 5:
+                StoryImg.sprite = FifthImg; // 두 번째 이미지로 변경
+                break;
             // 추가적인 이미지 변경 로직을 여기에 추가 가능
         }
     }
 
     void ChangeTxtFun()
     {
-        LeftBtnText.text = LeftOption[progressIndex - 1];
-        RightBtnText.text = RightOption[progressIndex - 1];
-        ChoiceText.text = ChoiceStory[progressIndex - 1];
+        if (progressIndex < InitStory.Length)
+        {
+            LeftBtnText.text = LeftOption[progressIndex - 1];
+            RightBtnText.text = RightOption[progressIndex - 1];
+            ChoiceText.text = ChoiceStory[progressIndex - 1];
+        }
+        else
+        {
+            SceneManager.LoadScene("EndScene");
+
+        }
     }
 
     // 0.1초 대기 후 텍스트 및 이미지 변경
     private IEnumerator WaitAndChange()
     {
-        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+        yield return new WaitForSeconds(0.5f); // 0.5초 대기
         ChangeImgFun(); // 이미지 변경
         ChangeTxtFun(); // 텍스트 변경
     }
