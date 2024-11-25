@@ -5,6 +5,7 @@ public class LBtnManager : MonoBehaviour
 {
     public string filePath; // 파일 경로
     private GameManager gameManager; // GameManager 참조
+    public GameObject Shader;
 
     void Start()
     {
@@ -15,6 +16,7 @@ public class LBtnManager : MonoBehaviour
 
     public void AppendL()
     {
+        Shader.SetActive(true);
         // "0"을 파일에 추가
         using (StreamWriter writer = new StreamWriter(filePath, true))
         {

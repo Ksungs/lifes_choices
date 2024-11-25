@@ -5,6 +5,7 @@ public class RBtnManager : MonoBehaviour
 {
     public string filePath; // 파일 경로
     private GameManager gameManager; // GameManager 참조
+    public GameObject Shader;
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class RBtnManager : MonoBehaviour
     public void AppendR()
     {
         // "1"을 파일에 추가
+        Shader.SetActive(true);
         using (StreamWriter writer = new StreamWriter(filePath, true))
         {
             writer.Write("1");
