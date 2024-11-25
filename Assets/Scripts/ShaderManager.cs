@@ -1,49 +1,93 @@
 using UnityEngine;
-using UnityEngine.UI; // UI 관련 네임스페이스 추가
+using UnityEngine.UI;
 using System.Collections;
 
 public class ShaderManager : MonoBehaviour
 {
-    private Image objectImage;
-    private Color objectColor;
+    public Image image; // UI Image 오브젝트를 연결할 변수
+    public Text shaderTxt; // UI Text 오브젝트를 연결할 변수
+    public GameObject ShaderTxtO;
+    public GameManager gameManager; // GameManager 스크립트를 연결할 변수
+    public float fadeDuration = 2f; // 페이드 아웃에 걸리는 시간
+    public float waitDuration; // 대기 시간
 
-    void Awake()
+    private void OnEnable()
     {
-        // Image 컴포넌트를 가져옵니다.
-        objectImage = GetComponent<Image>();
-        if (objectImage == null)
-        {
-            Debug.LogWarning("Image 컴포넌트가 이 게임 오브젝트에 없습니다.");
-            return; // 스크립트를 중단
-        }
-
-        objectColor = objectImage.color;
-        objectColor.a = 1; // 초기 투명도 설정 (불투명)
-        objectImage.color = objectColor;
+        // 이미지가 활성화될 때 FadeOut 코루틴 시작
+        waitDuration = 1f;
+        StartCoroutine(FadeOut());
+        
     }
 
-    void OnEnable()
+    private IEnumerator FadeOut()
     {
-        StartCoroutine(FadeOutCoroutine(1.0f)); // 1초 동안 서서히 투명하게
-    }
-
-    private IEnumerator FadeOutCoroutine(float duration)
-    {
-        float startAlpha = objectColor.a;
-        float endAlpha = 0.0f; // 최종 투명도 (투명)
         float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
+        Color color = image.color;
+        Debug.Log("FadeOut 시작"); // 코루틴 시작 로그
+        color.a = 1f;
+        image.color = color;
+        // 텍스트 업데이트
+        if (gameManager != null)
+        {
+            if (!(gameManager.progressIndex==0))
+            {
+                ShaderTxtO.SetActive(true);
+                UpdateShaderText();
+            }
+        }
+        
+        yield return new WaitForSeconds(waitDuration);
+        ShaderTxtO.SetActive(false);
+        while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            float currentAlpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
-            objectColor.a = currentAlpha;
-            objectImage.color = objectColor;
-            yield return null;
+            color.a = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            image.color = color;
+            yield return null; // 다음 프레임까지 대기
         }
 
-        objectColor.a = endAlpha;
-        objectImage.color = objectColor; // 최종값 설정
+        // 최종적으로 완전히 투명하게 설정
+        color.a = 0f;
+        image.color = color;
+        Debug.Log("FadeOut 완료"); // 코루틴 완료 로그
         gameObject.SetActive(false);
+    }
+
+    private void UpdateShaderText()
+    {
+        if (gameManager != null)
+        {
+            Debug.Log("Shade progressIndex: " + gameManager.progressIndex);
+            switch (gameManager.progressIndex)
+            {
+                case 1:
+                    shaderTxt.text = "어린 시절";
+                    Debug.Log("progress: " + gameManager.progressIndex);
+                    break;
+                case 2:
+                    shaderTxt.text = "청소년기";
+                    Debug.Log("progress: " + gameManager.progressIndex);
+                    break;
+                case 3:
+                    shaderTxt.text = "청년기";
+                    Debug.Log("progress: " + gameManager.progressIndex);
+                    break;
+                case 4:
+                    shaderTxt.text = "중년기";
+                    Debug.Log("progress: " + gameManager.progressIndex);
+                    break;
+                case 5:
+                    shaderTxt.text = "노년기";
+                    Debug.Log("progress: " + gameManager.progressIndex);
+                    break;
+                default:
+                    ShaderTxtO.SetActive(false);
+                    break;
+            }
+        }
+        else
+        {
+            ShaderTxtO.SetActive(false);
+        }
     }
 }

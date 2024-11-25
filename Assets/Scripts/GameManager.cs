@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public Image StoryImg; // 스토리 이미지를 표시할 UI Image
     public GameObject InitStoryObject; // 초기 스토리 오브젝트
     public GameObject LeftBtn;
+    public GameObject Shader;
+
     public Text LeftBtnText;
     public GameObject RightBtn;
     public Text RightBtnText;
@@ -72,13 +74,15 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) // 마우스 클릭 시
         {
-            if (progressIndex == 0)
-            {
-                InitFun();
-            }
-            else
-            {
-                StartCoroutine(WaitAndChange()); // 0.5초 대기 후 텍스트 및 이미지 변경
+            if (!Shader.activeSelf){
+                if (progressIndex == 0)
+                {
+                    InitFun();
+                }
+                else
+                {
+                    StartCoroutine(WaitAndChange()); // 0.5초 대기 후 텍스트 및 이미지 변경
+                }
             }
         }
     }
@@ -88,12 +92,14 @@ public class GameManager : MonoBehaviour
     {
         if (currentIndex < InitStory.Length - 1)
         {
+            Shader.SetActive(true);
             currentIndex++;
             InitText.text = InitStory[currentIndex]; // 다음 스토리 텍스트로 변경
         }
         else
         {       
             progressIndex++;
+            Shader.SetActive(true);
             StoryImg.gameObject.SetActive(true); // 이미지 활성화
             InitStoryObject.SetActive(false); // 초기 스토리 오브젝트 비활성화
             LeftBtn.SetActive(true);

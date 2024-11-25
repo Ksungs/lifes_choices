@@ -16,8 +16,7 @@ public class RBtnManager : MonoBehaviour
 
     public void AppendR()
     {
-        // "1"을 파일에 추가
-        Shader.SetActive(true);
+        // "0"을 파일에 추가
         using (StreamWriter writer = new StreamWriter(filePath, true))
         {
             writer.Write("1");
@@ -25,7 +24,7 @@ public class RBtnManager : MonoBehaviour
 
         // GameManager의 progressIndex 증가
         gameManager.progressIndex++; // progressIndex 증가
-        Debug.Log("Progress Index updated to: " + gameManager.progressIndex);
-        Debug.Log("1 has been appended to " + filePath);
+        Debug.Log("Button ProgressIndex: " + gameManager.progressIndex);
+        Shader.SetActive(true);
     }
 }

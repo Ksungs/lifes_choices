@@ -16,7 +16,6 @@ public class LBtnManager : MonoBehaviour
 
     public void AppendL()
     {
-        Shader.SetActive(true);
         // "0"을 파일에 추가
         using (StreamWriter writer = new StreamWriter(filePath, true))
         {
@@ -25,7 +24,7 @@ public class LBtnManager : MonoBehaviour
 
         // GameManager의 progressIndex 증가
         gameManager.progressIndex++; // progressIndex 증가
-        Debug.Log("Progress Index updated to: " + gameManager.progressIndex);
-        Debug.Log("0 has been appended to " + filePath);
+        Debug.Log("Button ProgressIndex: " + gameManager.progressIndex);
+        Shader.SetActive(true);
     }
 }
