@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.IO;
 using UnityEngine.SceneManagement;
 
@@ -356,27 +357,34 @@ void ReadFileAndSetEnding(string filePath)
     {
         // 파일에서 내용 읽기
         string binaryString = File.ReadAllText(filePath).Trim();
+        Debug.Log("File content: " + binaryString);
 
-        // 2진수 문자열을 10진수로 변환
-        if (int.TryParse(binaryString, System.Globalization.NumberStyles.AllowLeadingWhite | System.Globalization.NumberStyles.AllowTrailingWhite, null, out int decimalValue))
+        try
         {
+            // 2진수 문자열을 10진수로 변환
+            int decimalValue = Convert.ToInt32(binaryString, 2);
             selectedEndingIndex = decimalValue;
 
-            // 배열 범위 초과 방지
+            // 배열 범위를 초과하지 않도록 설정
             if (selectedEndingIndex >= Endings.Length)
             {
+                Debug.LogWarning($"Index {selectedEndingIndex} exceeds Endings array size. Setting to 0.");
                 selectedEndingIndex = 0;
             }
         }
-        else
+        catch (Exception e)
         {
-            Debug.LogError("Invalid binary string in file.");
+            Debug.LogError($"Error parsing binary string: {binaryString}. Exception: {e.Message}");
+            selectedEndingIndex = 0; // 기본값 설정
         }
     }
     else
     {
         Debug.LogError("File not found: " + filePath);
+        selectedEndingIndex = 0; // 파일이 없을 때 기본값 설정
     }
+
+    Debug.Log($"Selected Ending Index: {selectedEndingIndex}");
 }
 
 }

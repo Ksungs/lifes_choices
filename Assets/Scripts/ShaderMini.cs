@@ -5,8 +5,8 @@ using System.Collections;
 public class ShaderMini : MonoBehaviour
 {
     public Image image; // UI Image 오브젝트를 연결할 변수
-    public float fadeDuration = 2f; // 페이드 아웃에 걸리는 시간
-    public float waitDuration; // 대기 시간
+    private float fadeDuration = 1f; // 페이드 아웃에 걸리는 시간
+    private float waitDuration; // 대기 시간
 
     private void OnEnable()
     {

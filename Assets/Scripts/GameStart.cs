@@ -7,10 +7,11 @@ using System.IO;
 public class GameStart : MonoBehaviour
 {
     public string filePath; // 파일 경로
-
+    public GameObject Shader;
     void Start()
     {
         // 파일 경로 설정 (Assets/Data/output.txt)
+        Shader.SetActive(true);
         filePath = Path.Combine(Application.persistentDataPath, "output.txt");
     }
     public void StartGame()

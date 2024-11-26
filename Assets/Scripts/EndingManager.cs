@@ -1,16 +1,25 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ImageChanger : MonoBehaviour
+[System.Serializable]
+public class CollectionData
+{
+    public List<int> collectedItems = new List<int>(); // 10진수 리스트로 변경
+}
+
+public class EndingManager : MonoBehaviour
 {
     public Image imageUI; // 변경할 이미지 UI
     private string filePath;
+    private string collectionFilePath;
 
     void Start()
     {
         filePath = Path.Combine(Application.persistentDataPath, "output.txt");
+        collectionFilePath = Path.Combine(Application.persistentDataPath, "collection.json");
         ReadBinaryData();
     }
 
@@ -18,13 +27,11 @@ public class ImageChanger : MonoBehaviour
     {
         if (File.Exists(filePath))
         {
-            // 파일 내용을 읽습니다.
             string binaryValue = File.ReadAllText(filePath).Trim();
-
-            // 2진수 값이 유효한지 확인
             if (IsBinaryValueValid(binaryValue))
             {
                 ChangeImage(binaryValue);
+                SaveToCollection(binaryValue); // 10진수로 저장
             }
             else
             {
@@ -39,29 +46,22 @@ public class ImageChanger : MonoBehaviour
 
     bool IsBinaryValueValid(string binaryValue)
     {
-        // 2진수 값이 5자리인지 확인
         return binaryValue.Length == 5 && System.Text.RegularExpressions.Regex.IsMatch(binaryValue, "^[01]+$");
     }
 
     void ChangeImage(string binaryValue)
     {
-        // 2진수 값을 정수로 변환
         int index = Convert.ToInt32(binaryValue, 2);
-
-        // index는 0부터 시작하므로 1을 더하여 파일 이름 생성
         int fileIndex = index + 1;
 
-        // 이미지 경로 생성
-        string imagePath = Path.Combine(Application.dataPath, "imgs/ending", fileIndex + ".png");
-
-        // 경로 로그 출력
+        // Resources 폴더 경로에 맞는 이미지 로드
+        string imagePath = $"{fileIndex}"; // 확장자는 생략
         Debug.Log("이미지 경로: " + imagePath);
 
-        // 이미지 로드
-        Sprite newSprite = LoadSprite(imagePath);
+        Sprite newSprite = Resources.Load<Sprite>(imagePath);
         if (newSprite != null)
         {
-            imageUI.sprite = newSprite; // 이미지 변경
+            imageUI.sprite = newSprite;
         }
         else
         {
@@ -69,20 +69,40 @@ public class ImageChanger : MonoBehaviour
         }
     }
 
-    Sprite LoadSprite(string path)
+    void SaveToCollection(string binaryValue)
     {
-        // Texture2D를 생성하고 파일에서 읽어오기
-        Texture2D texture = new Texture2D(2, 2);
-        if (File.Exists(path))
+        int decimalValue = Convert.ToInt32(binaryValue, 2); // 2진수를 10진수로 변환
+        CollectionData collectionData;
+
+        // 콜렉션 파일이 존재하면 읽기
+        if (File.Exists(collectionFilePath))
         {
-            byte[] fileData = File.ReadAllBytes(path);
-            texture.LoadImage(fileData); // PNG 또는 JPG 파일을 로드합니다.
-            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            string json = File.ReadAllText(collectionFilePath);
+            collectionData = JsonUtility.FromJson<CollectionData>(json);
+
+            // JSON 데이터를 읽어왔지만 null일 수 있음, 초기화
+            if (collectionData == null)
+            {
+                collectionData = new CollectionData();
+            }
         }
         else
         {
-            Debug.LogError("파일이 존재하지 않습니다: " + path);
-            return null;
+            // 파일이 없으면 새로 초기화
+            collectionData = new CollectionData();
+        }
+
+        // 중복 체크 후 저장
+        if (!collectionData.collectedItems.Contains(decimalValue))
+        {
+            collectionData.collectedItems.Add(decimalValue);
+            string updatedJson = JsonUtility.ToJson(collectionData, true);
+            File.WriteAllText(collectionFilePath, updatedJson);
+            Debug.Log("콜렉션에 저장 완료: " + decimalValue);
+        }
+        else
+        {
+            Debug.Log("중복된 값이므로 저장하지 않습니다: " + decimalValue);
         }
     }
 }

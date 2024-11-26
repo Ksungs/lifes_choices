@@ -1,17 +1,13 @@
 using UnityEngine;
-using UnityEngine.EventSystems; // EventSystem 관련 네임스페이스
 
-public class HowClick : MonoBehaviour, IPointerClickHandler // IPointerClickHandler 인터페이스 구현
+public class HowClick : MonoBehaviour
 {
-    public void OnPointerClick(PointerEventData eventData)
+    void Update()
     {
-        GameObject clickedObject = eventData.pointerCurrentRaycast.gameObject;
-
-        // 클릭된 오브젝트가 자신인 경우
-        if (clickedObject == gameObject)
+        // 마우스 왼쪽 버튼이 클릭되면 GameObject를 비활성화
+        if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Clicked on How2Play!");
-            gameObject.SetActive(false); // 오브젝트 비활성화
+            gameObject.SetActive(false);
         }
     }
 }
